@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.files                 = Dir['[A-Z]*'] + Dir['lib/**/*']
   s.require_paths         = ['lib']
   s.extra_rdoc_files      = ['README.markdown']
-  s.required_ruby_version = '>= 2.1'
+  s.required_ruby_version = '>= 1.9'
   s.platform              = 'ruby'
 
   s.add_development_dependency('bundler', '~> 1.3')

@@ -23,7 +23,7 @@ module Nexpose
     # Number of minutes to wait for running scans to pause/complete before aborting the maintenance task. Defaults to 0 if not set
     attr_accessor :cancellation_window
 
-    def initialize(start:, enabled: true, type:, interval:, reindex: false, compress: true, cleanup: true, pause_local_scans: true, cancellation_window: 0)
+    def initialize(start,type, interval, enabled=true, reindex=false, compress=true, cleanup=true, pause_local_scans=true, cancellation_window=0)
       @schedule_start = start
       @enabled = enabled
       @schedule_type = type

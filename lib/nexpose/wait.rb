@@ -2,7 +2,7 @@ module Nexpose
   class Wait
     attr_reader :error_message, :ready, :retry_count, :timeout, :polling_interval
 
-    def initialize(retry_count: nil, timeout: nil, polling_interval: nil)
+    def initialize(retry_count=nil, timeout=nil, polling_interval=nil)
       @error_message = 'Default General Failure in Nexpose::Wait'
       @ready = false
       @retry_count = retry_count.to_i
@@ -14,7 +14,7 @@ module Nexpose
       @ready
     end
 
-    def for_report(nexpose_connection:, report_id:)
+    def for_report(nexpose_connection, report_id)
       poller = Nexpose::Poller.new(timeout: @timeout, polling_interval: @polling_interval)
       poller.wait(report_status_proc(nexpose_connection: nexpose_connection, report_id: report_id))
       @ready = true
@@ -30,7 +30,7 @@ module Nexpose
         @error_message = "Error Report Config ID: #{report_id} :: #{error}"
     end
 
-    def for_integration(nexpose_connection:, scan_id:, status: 'finished')
+    def for_integration(nexpose_connection, scan_id, status='finished')
       poller = Nexpose::Poller.new(timeout: @timeout, polling_interval: @polling_interval)
       poller.wait(integration_status_proc(nexpose_connection: nexpose_connection, scan_id: scan_id, status: status))
       @ready = true
@@ -43,7 +43,7 @@ module Nexpose
         @error_message = "API Error Waiting for Integration Scan ID: #{scan_id} :: #{error.req.error}"
     end
 
-    def for_judgment(proc:, desc:)
+    def for_judgment(proc, desc)
       poller = Nexpose::Poller.new(timeout: @timeout, polling_interval: @polling_interval)
       poller.wait(proc)
       @ready = true
@@ -55,11 +55,11 @@ module Nexpose
 
     private
 
-    def report_status_proc(nexpose_connection:, report_id:)
+    def report_status_proc(nexpose_connection, report_id)
       Proc.new { nexpose_connection.last_report(report_id).status == 'Generated' }
     end
 
-    def integration_status_proc(nexpose_connection:, scan_id:, status:)
+    def integration_status_proc(nexpose_connection, scan_id, status)
       Proc.new { nexpose_connection.scan_status(scan_id).downcase == status.downcase }
     end
 
@@ -77,7 +77,7 @@ module Nexpose
     ## Stand alone object to handle waiting logic.
     attr_reader :timeout, :polling_interval, :poll_begin
 
-    def initialize(timeout: nil, polling_interval: nil)
+    def initialize(timeout=nil, polling_interval=nil)
       global_timeout = set_global_timeout
       @timeout = timeout.nil? ? global_timeout : timeout
 

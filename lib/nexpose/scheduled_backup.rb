@@ -21,7 +21,7 @@ module Nexpose
     # Number of minutes to wait for running scans to pause/complete before aborting the backup task. Defaults to 0 if not set
     attr_accessor :cancellation_window
 
-    def initialize(start:, enabled: true, type:, interval:, platform_independent: true, description: nil, pause_local_scans: true, cancellation_window: 0)
+    def initialize(start, type, interval, enabled=true, platform_independent=true, description= nil, pause_local_scans= true, cancellation_window= 0)
       @schedule_start = start
       @enabled = enabled
       @schedule_type = type
